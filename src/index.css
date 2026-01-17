@@ -1,0 +1,286 @@
+/* =======================
+   FONTS
+======================= */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Karla:wght@400;700&display=swap");
+
+/* =======================
+   DESIGN TOKENS
+======================= */
+:root {
+  /* Colors */
+  --bg-page: #0b2434;
+  --bg-card: #f5f5f5;
+  --bg-die: #ffffff;
+  --bg-die-held: #59e391;
+  --bg-button: #5035ff;
+
+  --text-main: #222;
+  --text-muted: #444;
+  --text-held: #0f3d2e;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+
+  /* Spacing */
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 18px;
+  --space-lg: 28px;
+
+  /* Shadow */
+  --shadow-soft: 0 4px 8px rgba(0, 0, 0, 0.18);
+  --shadow-die:
+    0 5px 10px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+
+  /* Motion */
+  --ease-ui: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --speed-fast: 0.18s;
+  --speed-roll: 0.3s;
+}
+
+/* =======================
+   RESET
+======================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+/* =======================
+   PAGE LAYOUT
+======================= */
+body {
+  font-family:
+    Karla,
+    system-ui,
+    -apple-system,
+    sans-serif;
+  background-color: var(--bg-page);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+}
+
+#root {
+  width: min(90vw, 500px);
+  aspect-ratio: 1 / 1;
+}
+
+/* =======================
+   GAME CARD
+======================= */
+.main {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  height: 100%;
+  padding: var(--space-lg);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* =======================
+   TYPOGRAPHY
+======================= */
+.title {
+  font-size: 2.25rem;
+}
+
+.instructions {
+  font-family: Inter, sans-serif;
+  font-size: 0.95rem;
+  text-align: center;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* =======================
+   DICE GRID
+======================= */
+.container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-md);
+  place-items: center;
+  margin-bottom: var(--space-lg);
+}
+
+/* =======================
+   DIE BUTTON
+======================= */
+.die-button {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+
+  background: linear-gradient(145deg, #ffffff, #f1f1f1);
+  color: var(--text-main);
+
+  font-size: 1.6rem;
+  font-weight: 700;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: var(--shadow-die);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  transition:
+    transform var(--speed-fast) var(--ease-ui),
+    box-shadow var(--speed-fast) var(--ease-ui),
+    background-color var(--speed-fast) var(--ease-ui);
+}
+
+/* Hover (pointer devices only) */
+@media (hover: hover) {
+  .die-button:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 8px 14px rgba(0, 0, 0, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  }
+}
+
+/* Press */
+.die-button:active {
+  transform: scale(0.94);
+}
+
+/* =======================
+   HELD STATE
+======================= */
+.die-button.held {
+  background: linear-gradient(145deg, #7ef3b6, var(--bg-die-held));
+  color: var(--text-held);
+  box-shadow: 0 6px 14px rgba(89, 227, 145, 0.55);
+}
+
+/* =======================
+   ROLL ANIMATION
+======================= */
+.die-button.roll {
+  animation: calmRoll var(--speed-roll) ease;
+}
+
+@keyframes calmRoll {
+  0% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* =======================
+   WIN STATE
+======================= */
+.win .die-button {
+  animation: winPop 0.35s ease;
+}
+
+@keyframes winPop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* =======================
+   ACTION BUTTON
+======================= */
+.roll-btn {
+  margin-top: var(--space-md);
+  padding: 10px 22px;
+  font-size: 1.1rem;
+
+  background-color: var(--bg-button);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+
+  box-shadow:
+    var(--shadow-soft),
+    inset 0 1px 0 rgba(190, 183, 255, 0.7);
+
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+.roll-btn:active {
+  transform: scale(0.95);
+}
+
+/* =======================
+   ACCESSIBILITY
+======================= */
+.die-button:focus-visible,
+.roll-btn:focus-visible {
+  outline: 3px solid var(--bg-button);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(80, 53, 255, 0.25);
+}
+
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* =======================
+   SMALL DEVICES
+======================= */
+@media (max-width: 360px) {
+  .container {
+    gap: var(--space-sm);
+  }
+
+  .die-button {
+    width: 50px;
+    height: 50px;
+    font-size: 1.4rem;
+  }
+}
